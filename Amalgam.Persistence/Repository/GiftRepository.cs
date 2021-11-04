@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amalgam.Core.Contracts.Repositories.Parameters;
 using Amalgam.Core.Entities;
 using Amalgam.Core.Exceptions;
 using Amalgam.Persistence.Context;
@@ -10,17 +12,20 @@ namespace Amalgam.Core.Contracts.Repositories
 {
     public class GiftRepository : IGiftRepository
     {
-        private readonly IAmalgamContext context;
+        private readonly IAmalgamContext _context;
 
         public GiftRepository(IAmalgamContext context)
-            => this.context = context;
+            => this._context = context;
 
-        public IQueryable<Gift> AllGifts => context.Gifts.AsNoTracking();
+        public IQueryable<Gift> AllGifts => _context.Gifts.AsNoTracking();
 
         public IQueryable<Gift> Gifts => AllGifts.Where(g => g.DateDeleted != null);
 
+        public Task<List<Gift>> GetGiftsPaginated(PaginatedQueryParams parameters)
+            => Gifts.Skip(parameters.Offset).Take(parameters.Quantity).ToListAsync();
+
         public void AddGift(Gift gift)
-            => context.Gifts.Add(gift);
+            => _context.Gifts.Add(gift);
 
         public Task<Gift> GetGift(Guid giftId)
             => Gifts.FirstOrDefaultAsync(g => g.Id == giftId);
@@ -29,6 +34,6 @@ namespace Amalgam.Core.Contracts.Repositories
             => await GetGift(giftId) ?? throw NotFoundException.Of("Presente");
 
         public void UpdateGift(Gift gift)
-            => context.Gifts.Attach(gift).State = EntityState.Modified;
+            => _context.Gifts.Attach(gift).State = EntityState.Modified;
     }
 }
