@@ -16,7 +16,7 @@ namespace Amalgam.Core.Handlers
             this.giftRepository = giftRepository;
         }
 
-        public Task<Gift> CreateGift(CreateGiftCommand command)
+        public Task<Gift> CreateGiftAsync(CreateGiftCommand command)
         => Task.Run(() =>
         {
             var gift = new Gift(command.Title, command.Value, command.ImageUrl);
@@ -25,7 +25,7 @@ namespace Amalgam.Core.Handlers
         });
 
 
-        public async Task<Gift> UpdateGift(UpdateGiftCommand command)
+        public async Task<Gift> UpdateGiftAsync(UpdateGiftCommand command)
         {
             var gift = await giftRepository.GetRequiredGift(command.Id);
 
@@ -37,7 +37,7 @@ namespace Amalgam.Core.Handlers
             return gift;
         }
 
-        public async Task DeleteGift(Guid id)
+        public async Task DeleteGiftAsync(Guid id)
         {
             var gift = await giftRepository.GetRequiredGift(id);
             gift.SetDateDeleted(DateTimeOffset.Now);

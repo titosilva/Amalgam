@@ -15,7 +15,7 @@ namespace Amalgam.Core.Contracts.Repositories
         private readonly IAmalgamContext _context;
 
         public GiftRepository(IAmalgamContext context)
-            => this._context = context;
+            => _context = context;
 
         public IQueryable<Gift> AllGifts => _context.Gifts.AsNoTracking();
 

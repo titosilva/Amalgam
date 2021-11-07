@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Amalgam.Core.Classes;
 using Amalgam.Core.Entities;
+using Amalgam.Core.Exceptions;
 using FluentValidation;
 using FluentValidation.Results;
 
@@ -26,5 +27,13 @@ namespace Amalgam.Core.Contracts.Commands
         
         public List<ValidationFailure> Errors
             => new CreateGiftCommandValidator().Validate(this).Errors;
+
+        public void EnsureIsValid()
+        {
+            if (!IsValid)
+            {
+                throw DomainValidationException.Of(Errors);
+            }
+        }
     }
 }
