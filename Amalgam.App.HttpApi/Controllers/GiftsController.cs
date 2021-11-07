@@ -30,7 +30,7 @@ namespace Amalgam.App.HttpApi.Controllers
         {
             if (!command.IsValid)
             {
-                return Invalid(command.Errors, "command");
+                
             }
         }
     }

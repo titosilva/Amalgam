@@ -12,8 +12,5 @@ namespace Amalgam.App.HttpApi.Controllers.Base
 
         protected virtual ApiResult<TData> Fail<TData>(TData data, string message = null)
             => new ApiResult<TData>(false, message, data);
-
-        protected virtual ApiResult<List<ValidationFailure>> Invalid(List<ValidationFailure> errors, string name)
-            => new ApiResult<List<ValidationFailure>>(false, $"Invalid {name}", errors);
     }   
 }
