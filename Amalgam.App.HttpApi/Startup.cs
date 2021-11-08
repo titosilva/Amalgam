@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Amalgam.App.HttpApi.Context;
+using Amalgam.Core.Contracts.Handlers;
+using Amalgam.Core.Contracts.Repositories;
+using Amalgam.Core.Handlers;
+using Amalgam.Persistence.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -34,7 +37,10 @@ namespace Amalgam.App.HttpApi
                 c.SwaggerDoc("v1", new OpenApiInfo {Title = "Amalgam.App.HttpApi", Version = "v1"});
             });
 
-            services.AddDbContext<AppDbContext>(options =>
+            services.AddScoped<IGiftRepository, GiftRepository>();
+            services.AddScoped<IGiftHandler, GiftHandler>();
+
+            services.AddDbContext<AmalgamContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));
             });

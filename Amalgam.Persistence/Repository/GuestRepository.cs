@@ -10,9 +10,9 @@ namespace Amalgam.Core.Contracts.Repositories
 {
     public class GuestRepository : IGuestRepository
     {
-        private readonly IAmalgamContext context;
+        private readonly AmalgamContext context;
 
-        public GuestRepository(IAmalgamContext context)
+        public GuestRepository(AmalgamContext context)
             => this.context = context;
 
         public IQueryable<Guest> AllGuests => context.Guests.AsNoTracking();

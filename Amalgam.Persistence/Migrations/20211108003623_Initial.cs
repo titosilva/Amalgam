@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Amalgam.App.HttpApi.Migrations
+namespace Amalgam.Persistence.Migrations
 {
     public partial class Initial : Migration
     {

@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Amalgam.App.HttpApi.Context;
 using Amalgam.App.HttpApi.Controllers.Base;
 using Amalgam.App.HttpApi.Models;
 using Amalgam.Core.Contracts.Commands;
 using Amalgam.Core.Contracts.Handlers;
 using Amalgam.Core.Contracts.Repositories;
 using Amalgam.Core.Entities;
+using Amalgam.Persistence.Context;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Amalgam.App.HttpApi.Controllers
@@ -18,16 +18,16 @@ namespace Amalgam.App.HttpApi.Controllers
     {
         private readonly IGiftRepository _giftRepository;
         private readonly IGiftHandler _giftHandler;
-        private readonly AppDbContext _appDbContext;
+        private readonly AmalgamContext _context;
 
         public GiftsController(
             IGiftRepository giftRepository,
             IGiftHandler giftHandler,
-            AppDbContext appDbContext)
+            AmalgamContext context)
         {
             _giftRepository = giftRepository;
             _giftHandler = giftHandler;
-            _appDbContext = appDbContext;
+            _context = context;
         }
 
         [HttpGet]
@@ -40,7 +40,7 @@ namespace Amalgam.App.HttpApi.Controllers
             command.EnsureIsValid();
 
             var gift = await _giftHandler.CreateGiftAsync(command);
-            await _appDbContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             return Success(gift, "Gift created successfully");
         }
