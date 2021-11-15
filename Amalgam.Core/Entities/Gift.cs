@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Amalgam.Core.Classes;
 
 namespace Amalgam.Core.Entities
@@ -26,6 +27,10 @@ namespace Amalgam.Core.Entities
 
         public int Value { get; private set; }
 
+        public Guid? PaymentId { get; private set; }
+
+        public Payment Payment { get; private set; }
+
         #region Dates
 
         public DateTimeOffset? DateDeleted { get; private set; }
@@ -40,12 +45,22 @@ namespace Amalgam.Core.Entities
 
         public void SetValue(int value) => Value = value;
 
+        public void SetPayment(Payment payment)
+        {
+            PaymentId = payment.Id;
+            Payment = payment;
+        }
+
         public void SetDateDeleted(DateTimeOffset date) => DateDeleted = date;
 
         #endregion
 
         #region Getters
+        [NotMapped]
         public bool IsDeleted => DateDeleted.HasValue;
+
+        [NotMapped]
+        public bool IsPaid => PaymentId.HasValue;
         #endregion
     }
 }
