@@ -7,10 +7,13 @@ namespace Amalgam.App.HttpApi.Controllers.Base
 {
     public abstract class HttpApiControllerBase : ControllerBase
     {
-        protected virtual ApiResult<TData> Success<TData>(TData data, string message = null)
+        protected virtual ApiResult Success(string message = null)
+            => new ApiResult(true, message);
+
+        protected virtual ApiResult<TData> SuccessWithData<TData>(TData data, string message = null)
             => new ApiResult<TData>(true, message, data);
 
-        protected virtual ApiResult<TData> Fail<TData>(TData data, string message = null)
+        protected virtual ApiResult<TData> FailWithData<TData>(TData data, string message = null)
             => new ApiResult<TData>(false, message, data);
     }   
 }

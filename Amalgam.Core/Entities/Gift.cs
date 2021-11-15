@@ -43,5 +43,9 @@ namespace Amalgam.Core.Entities
         public void SetDateDeleted(DateTimeOffset date) => DateDeleted = date;
 
         #endregion
+
+        #region Getters
+        public bool IsDeleted => DateDeleted.HasValue;
+        #endregion
     }
 }

@@ -32,7 +32,7 @@ namespace Amalgam.App.HttpApi.Controllers
 
         [HttpGet]
         public async Task<ApiResult<List<Gift>>> ListGiftsPaginated([FromQuery] ApiPaginatedQueryParams parameters)
-            => Success(await _giftRepository.GetGiftsPaginated(parameters.ToQueryParams()));
+            => SuccessWithData(await _giftRepository.GetGiftsPaginated(parameters.ToQueryParams()));
 
         [HttpPost]
         public async Task<ApiResult<Gift>> CreateGift([FromBody] CreateGiftCommand command)
@@ -42,7 +42,25 @@ namespace Amalgam.App.HttpApi.Controllers
             var gift = await _giftHandler.CreateGiftAsync(command);
             await _context.SaveChangesAsync();
 
-            return Success(gift, "Gift created successfully");
+            return SuccessWithData(gift, "Gift created successfully");
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ApiResult<Gift>> UpdateGift([FromRoute] Guid id, [FromBody] UpdateGiftCommand command)
+        {
+            command.EnsureIsValid();
+
+            var gift = await _giftHandler.UpdateGiftAsync(id, command);
+            await _context.SaveChangesAsync();
+
+            return SuccessWithData(gift, "Gift updated successfully");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ApiResult> DeleteGift([FromRoute] Guid id)
+        {
+            await _giftHandler.DeleteGiftAsync(id);
+            return Success("Gift deleted successfully");
         }
     }
 }

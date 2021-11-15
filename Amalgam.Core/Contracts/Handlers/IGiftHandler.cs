@@ -7,7 +7,7 @@ namespace Amalgam.Core.Contracts.Handlers
 {
     public interface IGiftHandler {
         Task<Gift> CreateGiftAsync(CreateGiftCommand command);
-        Task<Gift> UpdateGiftAsync(UpdateGiftCommand command);
+        Task<Gift> UpdateGiftAsync(Guid id, UpdateGiftCommand command);
         Task DeleteGiftAsync(Guid id);
     }
 }
