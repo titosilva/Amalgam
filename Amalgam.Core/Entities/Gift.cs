@@ -7,20 +7,20 @@ namespace Amalgam.Core.Entities
 {
     public class Gift : Entity
     {
-        public const int TitleMaxLen = 200;
+        public const int NameMaxLen = 200;
 
         private Gift() : base() { }
 
         public Gift(string title, int value, string imageUrl = null) : base()
         {
-            Title = title;
+            Name = title;
             Value = value;
             ImageUrl = imageUrl;
         }
 
 
-        [Required, MaxLength(TitleMaxLen)]
-        public string Title { get; private set; }
+        [Required, MaxLength(NameMaxLen)]
+        public string Name { get; private set; }
 
         [MaxLength(Constants.UrlMaxLength)]
         public string ImageUrl { get; private set; }
@@ -39,7 +39,7 @@ namespace Amalgam.Core.Entities
 
         #region  Setters
 
-        public void SetTitle(string title) => Title = title;
+        public void SetTitle(string title) => Name = title;
 
         public void SetImageUrl(string imageUrl) => ImageUrl = imageUrl;
 

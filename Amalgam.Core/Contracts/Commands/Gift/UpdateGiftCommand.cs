@@ -12,7 +12,7 @@ namespace Amalgam.Core.Contracts.Commands
     {
         public UpdateGiftCommandValidator()
         {
-            RuleFor(c => c.Title).Length(0, Gift.TitleMaxLen).NotEmpty();
+            RuleFor(c => c.Title).Length(0, Gift.NameMaxLen).NotEmpty();
             RuleFor(c => c.ImageUrl).Length(0, Constants.UrlMaxLength);
             RuleFor(c => c.Value).GreaterThan(0);
         }
