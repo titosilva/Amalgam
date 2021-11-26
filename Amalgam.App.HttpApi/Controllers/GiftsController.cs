@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Amalgam.App.HttpApi.Authorization;
 using Amalgam.App.HttpApi.Controllers.Base;
 using Amalgam.App.HttpApi.Models;
 using Amalgam.Core.Contracts.Commands;
@@ -8,12 +9,14 @@ using Amalgam.Core.Contracts.Handlers;
 using Amalgam.Core.Contracts.Repositories;
 using Amalgam.Core.Entities;
 using Amalgam.Persistence.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Amalgam.App.HttpApi.Controllers
 {
     [Route("api/gifts")]
     [ApiController]
+    [Authorize(Roles = Roles.Owner)]
     public class GiftsController : HttpApiControllerBase
     {
         private readonly IGiftRepository _giftRepository;
@@ -31,15 +34,18 @@ namespace Amalgam.App.HttpApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ApiResult<List<Gift>>> ListGiftsPaginated([FromQuery] ApiPaginatedQueryParams parameters)
-            => SuccessWithData(await _giftRepository.GetGiftsPaginated(parameters.ToQueryParams()));
+            => parameters.Q > 0? 
+                SuccessWithData(await _giftRepository.GetGiftsPaginated(parameters.ToQueryParams())) : 
+                Fail<List<Gift>>("Quantity must be greater than 1");
 
         [HttpPost]
         public async Task<ApiResult<Gift>> CreateGift([FromBody] CreateGiftCommand command)
         {
             command.EnsureIsValid();
 
-            var gift = await _giftHandler.CreateGiftAsync(command);
+            var gift = _giftHandler.CreateGift(command);
             await _context.SaveChangesAsync();
 
             return SuccessWithData(gift, "Gift created successfully");

@@ -8,7 +8,7 @@ namespace Amalgam.Core.Entities
 
         public Guest() : base() { }
 
-        public Guest(string name)
+        public Guest(string name) : base() 
         {
             Name = name;
         }

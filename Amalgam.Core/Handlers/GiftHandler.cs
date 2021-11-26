@@ -17,17 +17,20 @@ namespace Amalgam.Core.Handlers
             this.giftRepository = giftRepository;
         }
 
-        public Task<Gift> CreateGiftAsync(CreateGiftCommand command)
-        => Task.Run(() =>
+        public Gift CreateGift(CreateGiftCommand command)
         {
+            command.EnsureIsValid();
+
             var gift = new Gift(command.Title, command.Value, command.ImageUrl);
             giftRepository.AddGift(gift);
             return gift;
-        });
+        }
 
 
         public async Task<Gift> UpdateGiftAsync(Guid id, UpdateGiftCommand command)
         {
+            command.EnsureIsValid();
+
             var gift = await giftRepository.GetRequiredGift(id);
 
             if (gift.IsDeleted)

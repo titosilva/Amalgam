@@ -2,13 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Amalgam.Core.Contracts.Repositories;
 using Amalgam.Core.Contracts.Repositories.Parameters;
 using Amalgam.Core.Entities;
 using Amalgam.Core.Exceptions;
 using Amalgam.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace Amalgam.Core.Contracts.Repositories
+namespace Amalgam.Persistence.Repositories
 {
     public class GiftRepository : IGiftRepository
     {
@@ -17,9 +18,9 @@ namespace Amalgam.Core.Contracts.Repositories
         public GiftRepository(AmalgamContext context)
             => _context = context;
 
-        public IQueryable<Gift> AllGifts => _context.Gifts.AsNoTracking();
+        public IQueryable<Gift> AllGifts => _context.Gifts.AsNoTracking().OrderBy(g => g.Value);
 
-        public IQueryable<Gift> Gifts => AllGifts.Where(g => g.DateDeleted != null);
+        public IQueryable<Gift> Gifts => AllGifts.Where(g => g.DateDeleted == null);
 
         public Task<List<Gift>> GetGiftsPaginated(PaginatedQueryParams parameters)
             => Gifts.Skip(parameters.Offset).Take(parameters.Quantity).ToListAsync();
