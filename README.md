@@ -1,2 +1,2 @@
 # Amalgam
-ASP.NET and EntityFramework based Wedding API
+A Wedding HTTP API based on .NET and a lot of love :heart:
