@@ -39,7 +39,8 @@ namespace Amalgam.App.HttpApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers()
-                    .AddJsonOptions(options => {
+                    .AddJsonOptions(options =>
+                    {
                         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                     });
             services.AddCors();
@@ -52,6 +53,8 @@ namespace Amalgam.App.HttpApi
             services.AddScoped<IGiftHandler, GiftHandler>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserHandler, UserHandler>();
+            services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<IContactHandler, ContactHandler>();
 
             services.AddTransient<TokenService>();
             services.AddTransient<IPasswordHashService, PasswordHashService>();
@@ -97,7 +100,11 @@ namespace Amalgam.App.HttpApi
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(cors => cors.AllowAnyOrigin());
+            app.UseCors(cors => { 
+                cors.AllowAnyOrigin();
+                cors.AllowAnyHeader();
+                cors.AllowAnyMethod();
+            });
 
             app.UseAuthentication();
             app.UseAuthorization();

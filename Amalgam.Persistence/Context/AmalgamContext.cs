@@ -10,6 +10,11 @@ namespace Amalgam.Persistence.Context
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Gift>().OwnsMany(g => g.Links);
+        }
+
         public DbSet<Gift> Gifts { get; set;  }
         public DbSet<Guest> Guests { get; set;  }
         public DbSet<GuestGroup> GuestGroups { get; set;  }

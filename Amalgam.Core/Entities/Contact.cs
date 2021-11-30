@@ -23,34 +23,16 @@ namespace Amalgam.Core.Entities
         {
         }
 
-        public Contact(ContactTypes type, string name, string value) : base()
+        public Contact(string name, string mobile) : base()
         {
-            Type = type;
             Name = name;
-            Value = value;
+            Mobile = mobile;
         }
 
-        public Contact(string type, string name, string value) : base()
-        {
-            ContactTypeName = type;
-            Name = name;
-            Value = value;
-        }
-
-        [MaxLength(NameMaxLen)]
+        [Required, MaxLength(NameMaxLen)]
         public string Name { get; private set; }
 
-        [NotMapped]
-        public ContactTypes Type { get; private set; }
-
-        [MaxLength(10)]
-        public string ContactTypeName
-        {
-            get => Enum.GetName(Type);
-            set => Type = Enum.Parse<ContactTypes>(value);
-        }
-
-        [MaxLength(Constants.EmailMaxLength)]
-        public string Value { get; private set; }
+        [Required, MaxLength(Constants.MobileMaxLength)]
+        public string Mobile { get; private set; }
     }
 }

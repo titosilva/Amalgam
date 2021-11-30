@@ -4,14 +4,16 @@ using Amalgam.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Amalgam.Persistence.Migrations
 {
     [DbContext(typeof(AmalgamContext))]
-    partial class AmalgamContextModelSnapshot : ModelSnapshot
+    [Migration("20211126162420_ContactIsMobile")]
+    partial class ContactIsMobile
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,10 +50,6 @@ namespace Amalgam.Persistence.Migrations
 
                     b.Property<DateTimeOffset?>("DateDeleted")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(200)
@@ -164,36 +162,6 @@ namespace Amalgam.Persistence.Migrations
                     b.HasOne("Amalgam.Core.Entities.Payment", "Payment")
                         .WithMany()
                         .HasForeignKey("PaymentId");
-
-                    b.OwnsMany("Amalgam.Core.Entities.GiftLink", "Links", b1 =>
-                        {
-                            b1.Property<Guid>("GiftId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<int>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                            b1.Property<string>("Name")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)");
-
-                            b1.Property<string>("Url")
-                                .IsRequired()
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)");
-
-                            b1.HasKey("GiftId", "Id");
-
-                            b1.ToTable("GiftLink");
-
-                            b1.WithOwner()
-                                .HasForeignKey("GiftId");
-                        });
-
-                    b.Navigation("Links");
 
                     b.Navigation("Payment");
                 });

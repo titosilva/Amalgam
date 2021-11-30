@@ -23,7 +23,7 @@ namespace Amalgam.Core.Handlers
         {
             command.EnsureIsValid();
 
-            var contact = new Contact(command.Type, command.Name, command.Value);
+            var contact = new Contact(command.Name, command.Mobile);
             contactRepository.AddContact(contact);
 
             return contact;

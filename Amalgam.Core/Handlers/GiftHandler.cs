@@ -21,8 +21,10 @@ namespace Amalgam.Core.Handlers
         {
             command.EnsureIsValid();
 
-            var gift = new Gift(command.Title, command.Value, command.ImageUrl);
+            var gift = new Gift(command.Title, command.Value, command.ImageUrl, command.Description);
+            gift.AddMultipleLinks(command.Links);
             giftRepository.AddGift(gift);
+
             return gift;
         }
 
@@ -41,6 +43,9 @@ namespace Amalgam.Core.Handlers
             gift.SetTitle(command.Title);
             gift.SetValue(command.Value);
             gift.SetImageUrl(command.ImageUrl);
+            gift.SetDescription(command.Description);
+            gift.ClearLinks();
+            gift.AddMultipleLinks(command.Links);
 
             giftRepository.UpdateGift(gift);
             return gift;

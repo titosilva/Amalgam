@@ -16,15 +16,14 @@ namespace Amalgam.Core.Contracts.Commands
         public CreateContactCommandValidator()
         {
             RuleFor(c => c.Name).Length(0, Contact.NameMaxLen);
-            RuleFor(c => c.Value).Length(0, Constants.EmailMaxLength);
+            RuleFor(c => c.Mobile).Length(0, Constants.MobileMaxLength);
         }
     }
 
     public class CreateContactCommand
     {
         public string Name { get; set; }
-        public string Value { get; set; }
-        public ContactTypes Type { get; set; }
+        public string Mobile { get; set; }
 
         public bool IsValid
           => new CreateContactCommandValidator().Validate(this).IsValid;

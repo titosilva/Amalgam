@@ -20,6 +20,12 @@ namespace Amalgam.App.HttpApi.Controllers
         private readonly IContactHandler contactHandler;
         private readonly AmalgamContext context;
 
+        public ContactsController(IContactHandler contactHandler, AmalgamContext context)
+        {
+            this.contactHandler = contactHandler;
+            this.context = context;
+        }
+
         [HttpPost]
         public async Task CreateContact(CreateContactCommand command)
         {
